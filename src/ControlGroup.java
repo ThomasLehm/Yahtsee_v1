@@ -15,7 +15,7 @@ public class ControlGroup {
 
         fen = new Fenetre(model);
 
-        controlButton = new ControlButton(fen);
+        controlButton = new ControlButton(model,fen);
         controlMenu = new ControlMenu(fen);
 
 

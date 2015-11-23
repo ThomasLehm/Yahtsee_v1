@@ -8,201 +8,631 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ControlButton implements ActionListener{
-    private float coeff;
-
-    public ControlButton(Fenetre fen) {
-
-        Float coeff;
-        Float mul;
-
-
-      /*  ControlButton(Fenetre fen)
-        {
-            this.fen =fen;
-        }
-
-        public void setButtonControl(){
-
-        }
-
-      /*  public float calcoeff(JRadioButton b1,JRadioButton b2,JRadioButton b3)
-        {
-
-            if (b1.isSelected()) {
-                this.coeff = 1.0f;
-            } else {
-                if (b2.isSelected()) {
-                    this.coeff = 2.0f;
-                } else {
-                    if (b3.isSelected()) {
-                        this.coeff = 3.0f;
-                    } else {
-                        Fenetre fen;
-                        fen.creerDialogue("Vous n'avez pas selectionnez de coefficient");
-                    }
-                }
-            }
-
-            return this.coeff;
-        }*/
-
-     /*   public void actionPerformed(ActionEvent e) {
-
-            Float src1, src2, src3, src4, src5;
-            String rsrc1, rsrc2, rsrc3, rsrc4, rsrc5;
-            JTextField destination;
-            float source;
-            String moyenne;
-            String option =(fen.E1.getSelectedItem().toString());
-
-
-            rsrc1=fen.txtanglais.getText();
-            rsrc2=fen.txtmath.getText();
-            rsrc3=fen.txtinfo.getText();
-            rsrc4=fen.txtgeo.getText();
-            rsrc5=fen.txtoption.getText();
-
-            if(fen.F1.isSelected()) { //checkbox on
-
-                if(rsrc1.compareTo(new String("") )== 0
-                        || rsrc2.compareTo(new String("") ) == 0
-                        || rsrc3.compareTo(new String("") ) == 0
-                        || rsrc4.compareTo(new String("") ) == 0 )
-                {
-
-                    fen.creerDialogue("Il manque des valeurs");
-                    System.out.println(" test manque valeur+checkbox");
-
-                }
-
-                if ((src1 = Float.parseFloat(rsrc1)) ==0
-                        || (src1 = Float.parseFloat(rsrc1))>=21
-                        || (src2 = Float.parseFloat(rsrc2))==0
-                        || (src2 = Float.parseFloat(rsrc2))>=21
-                        || (src3 = Float.parseFloat(rsrc3))==0
-                        || (src3 = Float.parseFloat(rsrc3))>=21
-                        || (src4 = Float.parseFloat(rsrc4))==0
-                        || (src4 = Float.parseFloat(rsrc4))>=21)
-                {
-
-                    fen.creerDialogue("ERROR valeurs impossibles");
-                    System.out.println("test valeurs impossibles+checkbox");
-
-                }
-
-                else
-                {
-
-
-
-                    if (rsrc5.compareTo(new String("")) == 0) {
-
-                        src1 = Float.parseFloat(rsrc1);
-                        src2 = Float.parseFloat(rsrc2);
-                        src3 = Float.parseFloat(rsrc3);
-                        src4 = Float.parseFloat(rsrc4);
-                        source = (src1*calcoeff(fen.A1,fen.A2,fen.A3) + src2*calcoeff(fen.B1,fen.B2,fen.B3) + src3*calcoeff(fen.C1,fen.C2,fen.C3) + src4*calcoeff(fen.D1,fen.D2,fen.D3) )/ (calcoeff(fen.A1,fen.A2,fen.A3) + calcoeff(fen.B1,fen.B2,fen.B3) + calcoeff(fen.C1,fen.C2,fen.C3) + calcoeff(fen.D1,fen.D2,fen.D3)+0.0f);
-                        moyenne = Float.toString(source);
-                        System.out.println("test sans option+checkbox");
-
-                    }else{
-                        src1 = Float.parseFloat(rsrc1);
-                        src2 = Float.parseFloat(rsrc2);
-                        src3 = Float.parseFloat(rsrc3);
-                        src4 = Float.parseFloat(rsrc4);
-                        src5 = Float.parseFloat(rsrc5);
-
-
-                        if(option.compareTo(new String("Latin"))==0 || option.compareTo(new String("Grec"))==0){
-                            mul=2.0f;
-                        }
-                        else{mul=1.0f;}
-                        source = (src1*calcoeff(fen.A1,fen.A2,fen.A3) + src2*calcoeff(fen.B1,fen.B2,fen.B3) + src3*calcoeff(fen.C1,fen.C2,fen.C3) + src4*calcoeff(fen.D1,fen.D2,fen.D3)+mul*src5) / (calcoeff(fen.A1,fen.A2,fen.A3) + calcoeff(fen.B1,fen.B2,fen.B3) + calcoeff(fen.C1,fen.C2,fen.C3) + calcoeff(fen.D1,fen.D2,fen.D3)+ mul*1.0f);
-                        moyenne = Float.toString(source);
-                        System.out.println("test avec option+checkbox");
-
-                    }
+    protected Model model;
+    protected Fenetre fen;
+    int lancer=0;
+    int total=0;
+    ArrayList<Integer> stockage = new ArrayList<>();
+   // int t=1;//tour de jeux
+    int j=0;//num de joueur dans la grille
+    int x,y,w,v,z;
+    int totalup[];
 
 
 
 
-
-                    destination = fen.txtvaleur;
-                    destination.setText(moyenne);
-                }
-            }//fin checkbox on
-
-            else{ //debut checkbox off
-
-
-                if(rsrc1.compareTo(new String("") )== 0
-                        || rsrc2.compareTo(new String("") ) == 0
-                        || rsrc3.compareTo(new String("") ) == 0
-                        || rsrc4.compareTo(new String("") ) == 0 )
-                {
-
-                    fen.creerDialogue("Il manque des valeurs");
-                    System.out.println(" test manque valeur");
-                }
-
-                if ((src1 = Float.parseFloat(rsrc1)) ==0
-                        || (src1 = Float.parseFloat(rsrc1))>=21
-                        || (src2 = Float.parseFloat(rsrc2))==0
-                        || (src2 = Float.parseFloat(rsrc2))>=21
-                        || (src3 = Float.parseFloat(rsrc3))==0
-                        || (src3 = Float.parseFloat(rsrc3))>=21
-                        || (src4 = Float.parseFloat(rsrc4))==0
-                        || (src4 = Float.parseFloat(rsrc4))>=21)
-                {
-
-                    fen.creerDialogue("ERROR valeurs impossibles");
-                    System.out.println(" test valeur impossible");
-                }
-
-                else
-                {
-
-
-
-                    if (rsrc5.compareTo(new String("")) == 0) {
-
-                        src1 = Float.parseFloat(rsrc1);
-                        src2 = Float.parseFloat(rsrc2);
-                        src3 = Float.parseFloat(rsrc3);
-                        src4 = Float.parseFloat(rsrc4);
-                        source = (src1 + src2 + src3 + src4)/4.0f;
-                        moyenne = Float.toString(source);
-                        System.out.println("test sans option");
-
-                    }else{
-                        src1 = Float.parseFloat(rsrc1);
-                        src2 = Float.parseFloat(rsrc2);
-                        src3 = Float.parseFloat(rsrc3);
-                        src4 = Float.parseFloat(rsrc4);
-                        src5 = Float.parseFloat(rsrc5);
-
-                        source = (src1 + src2 + src3 + src4+src5)/5.0f;
-                        moyenne = Float.toString(source);
-                        System.out.println("test avec option");
-
-                    }
-
-
-
-
-
-                    destination = fen.txtvaleur;
-                    destination.setText(moyenne);
-                }
-            }//fin checkbox off
-        }*/
+    public ControlButton(Model model,Fenetre fen) {
+        this.fen=fen;
+        this.model=model;
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        totalup= new int[model.getNbJoueur()];
+        int sortie[] = new int[6];
+        JLabel dé1, dé2, dé3, dé4, dé5;
+
+        if (e.getSource() == fen.lancer) {
+            for (int i = 0; i <6 ; i++) {
+               sortie[i]=(int)(6.0 * Math.random()) + 1;
+
+            }
+
+            if (fen.A1.isSelected() == false) {
+                dé1 = fen.dé1;
+                String chiffre1 = Integer.toString(sortie[1]);
+                dé1.setText(chiffre1);
+                }
+            if (fen.A2.isSelected() == false) {
+                dé2 = fen.dé2;
+                String chiffre2 = Integer.toString(sortie[2]);
+                dé2.setText(chiffre2);
+                }
+            if (fen.A3.isSelected() == false) {
+                dé3 = fen.dé3;
+                String chiffre3 = Integer.toString(sortie[3]);
+                dé3.setText(chiffre3);
+                }
+            if (fen.A4.isSelected() == false) {
+                dé4 = fen.dé4;
+                String chiffre4 = Integer.toString(sortie[4]);
+                dé4.setText(chiffre4);
+                }
+            if (fen.A5.isSelected() == false) {
+                dé5 = fen.dé5;
+                String chiffre5 = Integer.toString(sortie[5]);
+                dé5.setText(chiffre5);
+            }
+
+            if(lancer!=3){
+
+                lancer=lancer+1;
+
+            }
+            if(lancer==3){fen.lancer.setVisible(false);
+                lancer=0;}
+
+            System.out.println("lancer  : "+lancer);
+
+        }
+
+        if (e.getSource() == fen.TotalAs) {
+
+            if(j==model.getNbJoueur()){
+                j=0;
+            }
+
+            fen.lancer.setVisible(true);
+            lancer =0;
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=1){v=0;}
+            if(w!=1){w=0;}
+            if(x!=1){x=0;}
+            if(y!=1){y=0;}
+            if(z!=1){z=0;}
+
+            total=z+x+y+v+w;
+
+            String esp1 = Integer.toString(total);
+            fen.esp[1][j].setText(esp1);
+            fen.dé1.setText("_");
+            fen.dé2.setText("_");
+            fen.dé3.setText("_");
+            fen.dé4.setText("_");
+            fen.dé5.setText("_");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+
+            totalup[j]=totalup[j]+ total;
+
+            String trans=Integer.toString(totalup[j]);
+            fen.esp[7][j].setText(trans);
+            fen.esp[9][j].setText(trans);
+
+            if(j!=model.getNbJoueur()){
+
+                j++;
+            }
+            System.out.println("lancer  : "+lancer);
+
+        }
+
+        if (e.getSource() == fen.TotalDeux) {
+
+
+            if(j==model.getNbJoueur()){
+                j=0;
+            }
+
+            fen.lancer.setVisible(true);
+            lancer =0;
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=2){v=0;}
+            if(w!=2){w=0;}
+            if(x!=2){x=0;}
+            if(y!=2){y=0;}
+            if(z!=2){z=0;}
+
+            total=z+x+y+v+w;
+            String esp1 = Integer.toString(total);
+            fen.esp[2][j].setText(esp1);
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+            totalup[j]=totalup[j]+ total;
+            String trans=Integer.toString(totalup[j]);
+            fen.esp[7][j].setText(trans);
+            fen.esp[9][j].setText(trans);
+
+
+            if(j!=model.getNbJoueur()){
+
+                j++;
+            }
+            System.out.println("lancer  : "+lancer);
+
+        }
+
+        if (e.getSource() == fen.TotalTrois) {
+
+
+            if(j==model.getNbJoueur()){
+                j=0;
+            }
+            fen.lancer.setVisible(true);
+            lancer =0;
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=3){v=0;}
+            if(w!=3){w=0;}
+            if(x!=3){x=0;}
+            if(y!=3){y=0;}
+            if(z!=3){z=0;}
+            System.out.println("controle attendre ok");
+
+            total=z+x+y+v+w;
+            String esp1 = Integer.toString(total);
+            fen.esp[3][j].setText(esp1);
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+            totalup[j]=totalup[j]+ total;
+            String trans=Integer.toString(totalup[j]);
+            fen.esp[7][j].setText(trans);
+            fen.esp[9][j].setText(trans);
+
+
+            if(j!=model.getNbJoueur()){
+
+                j++;
+            }
+            System.out.println("lancer  : "+lancer);
+        }
+
+        if (e.getSource() == fen.TotalQuatre) {
+
+            if(j==model.getNbJoueur()){
+                j=0;
+            }
+            fen.lancer.setVisible(true);
+            lancer =0;
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=4){v=0;}
+            if(w!=4){w=0;}
+            if(x!=4){x=0;}
+            if(y!=4){y=0;}
+            if(z!=4){z=0;}
+            total=z+x+y+v+w;
+            String esp1 = Integer.toString(total);
+            fen.esp[4][j].setText(esp1);
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+            totalup[j]=totalup[j]+ total;
+            String trans=Integer.toString(totalup[j]);
+            fen.esp[7][j].setText(trans);
+            fen.esp[9][j].setText(trans);
+
+
+            if(j!=model.nbJoueur){
+
+                j++;
+            }
+            System.out.println("lancer  : "+lancer);
+        }
+
+        if (e.getSource() == fen.TotalCinq) {
+
+            if(j==model.getNbJoueur()){
+                j=0;
+            }
+            fen.lancer.setVisible(true);
+            lancer =0;
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=5){v=0;}
+            if(w!=5){w=0;}
+            if(x!=5){x=0;}
+            if(y!=5){y=0;}
+            if(z!=5){z=0;}
+            total=z+x+y+v+w;
+            String esp1 = Integer.toString(total);
+            fen.esp[5][j].setText(esp1);
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+            totalup[j]=totalup[j]+ total;
+            String trans=Integer.toString(totalup[j]);
+            fen.esp[7][j].setText(trans);
+            fen.esp[9][j].setText(trans);
+
+
+            if(j!=model.getNbJoueur()){
+
+                j++;
+            }
+            System.out.println("lancer  : "+lancer);
+        }
+
+        if (e.getSource() == fen.TotalSix) {
+
+            if(j==model.getNbJoueur()){
+                j=0;
+            }
+            fen.lancer.setVisible(true);
+            lancer =0;
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=6){v=0;}
+            if(w!=6){w=0;}
+            if(x!=6){x=0;}
+            if(y!=6){y=0;}
+            if(z!=6){z=0;}
+            total=z+x+y+v+w;
+            String esp1 = Integer.toString(total);
+            fen.esp[6][j].setText(esp1);
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+            totalup[j]=totalup[j]+ total;
+            String trans=Integer.toString(totalup[j]);
+            fen.esp[7][j].setText(trans);
+            fen.esp[9][j].setText(trans);
+
+
+            if(j!=model.getNbJoueur()){
+
+                j++;
+            }
+
+        }
+
+
+        if (e.getSource() == fen.Brelan) {
+            if(j==model.getNbJoueur()){
+                j=0;
+            }
+
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=6){v=0;}
+            if(w!=6){w=0;}
+            if(x!=6){x=0;}
+            if(y!=6){y=0;}
+            if(z!=6){z=0;}
+            total=z+x+y+v+w;
+            System.out.println("chiffre" + total + " " + z + " " + x + " " + v + " " + w + " " + y);
+            String esp1 = Integer.toString(total);
+            fen.esp[6][j].setText(esp1);
+            //passage de joueur et des tours
+            lancer=0;
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+
+            if(j!=model.getNbJoueur()){
+
+                j++;
+            }
+        }
+        if (e.getSource() == fen.Carre) {
+            if(j==model.getNbJoueur()){
+                j=0;
+            }
+
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=6){v=0;}
+            if(w!=6){w=0;}
+            if(x!=6){x=0;}
+            if(y!=6){y=0;}
+            if(z!=6){z=0;}
+            total=z+x+y+v+w;
+            System.out.println("chiffre"+total+" "+z+" "+x+" "+v+" "+w+" "+y);
+            String esp1 = Integer.toString(total);
+            fen.esp[6][j].setText(esp1);
+            //passage de joueur et des tours
+            lancer=0;
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+
+            if(j!=model.nbJoueur){
+
+                j++;
+            }
+        }
+
+        if (e.getSource() == fen.Full) {
+            if(j==model.nbJoueur){
+                j=0;
+            }
+
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=6){v=0;}
+            if(w!=6){w=0;}
+            if(x!=6){x=0;}
+            if(y!=6){y=0;}
+            if(z!=6){z=0;}
+            total=z+x+y+v+w;
+            System.out.println("chiffre"+total+" "+z+" "+x+" "+v+" "+w+" "+y);
+            String esp1 = Integer.toString(total);
+            fen.esp[6][j].setText(esp1);
+            //passage de joueur et des tours
+            lancer=0;
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+
+            if(j!=model.getNbJoueur()){
+
+                j++;
+            }
+        }
+
+        if (e.getSource() == fen.PSuite) {
+            if(j==model.getNbJoueur()){
+                j=0;
+            }
+
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=6){v=0;}
+            if(w!=6){w=0;}
+            if(x!=6){x=0;}
+            if(y!=6){y=0;}
+            if(z!=6){z=0;}
+            total=z+x+y+v+w;
+            System.out.println("chiffre"+total+" "+z+" "+x+" "+v+" "+w+" "+y);
+            String esp1 = Integer.toString(total);
+            fen.esp[6][j].setText(esp1);
+            //passage de joueur et des tours
+            lancer=0;
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+
+            if(j!=model.getNbJoueur()){
+
+                j++;
+            }
+        }
+
+        if (e.getSource() == fen.GSuite) {
+            if(j==model.nbJoueur){
+                j=0;
+            }
+
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=6){v=0;}
+            if(w!=6){w=0;}
+            if(x!=6){x=0;}
+            if(y!=6){y=0;}
+            if(z!=6){z=0;}
+            total=z+x+y+v+w;
+            System.out.println("chiffre"+total+" "+z+" "+x+" "+v+" "+w+" "+y);
+            String esp1 = Integer.toString(total);
+            fen.esp[6][j].setText(esp1);
+            //passage de joueur et des tours
+            lancer=0;
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+
+            if(j!=model.nbJoueur){
+
+                j++;
+            }
+        }
+        if (e.getSource() == fen.Yahtzee) {
+            if(j==model.getNbJoueur()){
+                j=0;
+            }
+
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=6){v=0;}
+            if(w!=6){w=0;}
+            if(x!=6){x=0;}
+            if(y!=6){y=0;}
+            if(z!=6){z=0;}
+            total=z+x+y+v+w;
+            System.out.println("chiffre"+total+" "+z+" "+x+" "+v+" "+w+" "+y);
+            String esp1 = Integer.toString(total);
+            fen.esp[6][j].setText(esp1);
+            //passage de joueur et des tours
+            lancer=0;
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+
+            if(j!=model.nbJoueur){
+
+                j++;
+            }
+        }
+
+        if (e.getSource() == fen.Chance) {
+            if(j==model.nbJoueur){
+                j=0;
+            }
+
+            v = Integer.parseInt(fen.dé1.getText());
+            w= Integer.parseInt(fen.dé2.getText());
+            x = Integer.parseInt(fen.dé3.getText());
+            y = Integer.parseInt(fen.dé4.getText());
+            z = Integer.parseInt(fen.dé5.getText());
+            if(v!=6){v=0;}
+            if(w!=6){w=0;}
+            if(x!=6){x=0;}
+            if(y!=6){y=0;}
+            if(z!=6){z=0;}
+            total=z+x+y+v+w;
+            System.out.println("chiffre"+total+" "+z+" "+x+" "+v+" "+w+" "+y);
+            String esp1 = Integer.toString(total);
+            fen.esp[6][j].setText(esp1);
+            //passage de joueur et des tours
+            lancer=0;
+            fen.dé1.setText("0");
+            fen.dé2.setText("0");
+            fen.dé3.setText("0");
+            fen.dé4.setText("0");
+            fen.dé5.setText("0");
+            fen.A1.setSelected(false);
+            fen.A2.setSelected(false);
+            fen.A3.setSelected(false);
+            fen.A4.setSelected(false);
+            fen.A5.setSelected(false);
+
+            if(j!=model.getNbJoueur()){
+
+                j++;
+            }
+        }
+
+        if (e.getSource() == fen.PrimeY) {
+            System.out.println("controle attendre ok");
+        }
+
+        if (e.getSource() == fen.Prime35) {
+            System.out.println("controle fin de tour ok");
+        }
+        if (e.getSource() == fen.TotalInf) {
+            System.out.println("controle attaque ok");
+        }
+
+        if (e.getSource() == fen.TotalSup) {
+            System.out.println("controle defence ok");
+        }
+
+        if (e.getSource() == fen.TotalSup2) {
+            System.out.println("controle attendre ok");
+        }
 
     }
 }
